@@ -1,9 +1,6 @@
 # portfolio_app.py
 
 import streamlit as st
-from PIL import Image
-import altair as alt
-import pandas as pd
 
 # Page Config
 st.set_page_config(
@@ -678,52 +675,6 @@ elif page_name == "Skills":
         <span class='skill-badge'>Geospatial APIs</span>
         <span class='skill-badge'>Serverless</span>
         """, unsafe_allow_html=True)
-    
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    
-    # Proficiency Chart
-    st.markdown("### 📊 Proficiency Levels")
-    
-    skills = {
-        "Python": 90,
-        "FastAPI": 85,
-        "SQL/MySQL": 80,
-        "Git": 80,
-        "AWS Lambda": 75,
-        "Flask": 70,
-        "API Gateway": 70,
-        "Linux/Ubuntu": 70,
-        "S3": 65
-    }
-    
-    df_skills = pd.DataFrame(list(skills.items()), columns=['Skill', 'Proficiency'])
-    
-    bar_chart = alt.Chart(df_skills).mark_bar(
-        cornerRadiusEnd=5,
-        color=alt.Gradient(
-            gradient='linear',
-            stops=[alt.GradientStop(color='#1f6feb', offset=0),
-                   alt.GradientStop(color='#0969da', offset=1)],
-            x1=1, x2=0, y1=0, y2=0
-        )
-    ).encode(
-        x=alt.X('Proficiency:Q', title='Proficiency (%)', scale=alt.Scale(domain=[0, 100])),
-        y=alt.Y('Skill:N', sort='-x', title=''),
-        tooltip=[
-            alt.Tooltip('Skill:N', title='Skill'),
-            alt.Tooltip('Proficiency:Q', title='Proficiency (%)')
-        ]
-    ).properties(
-        height=400
-    ).configure_view(
-        strokeWidth=0
-    ).configure_axis(
-        labelColor='#c9d1d9',
-        titleColor='#c9d1d9',
-        gridColor='#30363d'
-    )
-    
-    st.altair_chart(bar_chart, use_container_width=True)
 
 # ----------------- Contact -----------------
 elif page_name == "Contact":
@@ -771,6 +722,6 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("""
 <div style='text-align: center; padding: 20px;'>
-    <p style='color: #8b949e;'>© 2024 Sai Manasa B | Built with ❤️ using Streamlit</p>
+    <p style='color: #8b949e;'>© 2025 Sai Manasa B | Built with ❤️ using Streamlit</p>
 </div>
 """, unsafe_allow_html=True)
