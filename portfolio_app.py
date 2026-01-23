@@ -10,439 +10,522 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS for better styling
+# Custom CSS for modern, unique styling
 st.markdown("""
 <style>
-    /* Hide sidebar */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+    
+    /* Hide sidebar and default elements */
     [data-testid="stSidebar"] {
         display: none;
     }
     
-    /* Dark theme background */
+    /* Modern dark gradient background */
     .stApp {
-        background-color: #0e1117;
-        color: #c9d1d9;
+        background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1629 100%);
+        color: #e6eaf0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #0a0e27;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
     }
     
     /* Remove default padding */
     .block-container {
-        padding-top: 2rem;
+        padding-top: 1rem;
         padding-bottom: 2rem;
         max-width: 1400px;
     }
     
-    /* NAVIGATION STYLING - CRITICAL */
-    /* Container for the entire navigation area */
-    .nav-wrapper {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        padding: 1.5rem 2rem;
-        border-radius: 15px;
-        margin-bottom: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 2rem;
+    /* ==================== NAVIGATION ==================== */
+    .nav-container {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1rem 2rem;
+        border-radius: 20px;
+        margin-bottom: 3rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
     
-    /* Logo text styling */
-    .nav-logo {
-        color: white !important;
-        font-size: 24px;
-        font-weight: 700;
-        margin: 0 !important;
-        padding: 0 !important;
+    .nav-brand {
+        font-size: 26px;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.5px;
     }
     
-    /* Hide the radio group label */
+    /* Hide radio label */
     .stRadio > label {
         display: none !important;
     }
     
-    /* Radio buttons container */
+    /* Radio container */
     .stRadio > div {
         display: flex !important;
         flex-direction: row !important;
-        gap: 10px !important;
+        gap: 8px !important;
         background: transparent !important;
         padding: 0 !important;
-        margin: 0 !important;
     }
     
     div[role="radiogroup"] {
         display: flex !important;
-        gap: 10px !important;
+        gap: 8px !important;
         flex-direction: row !important;
         flex-wrap: wrap !important;
     }
     
-    /* Individual radio button labels - FORCE WHITE TEXT */
+    /* Radio buttons - Modern glass morphism style */
     .stRadio label {
-        background: rgba(255, 255, 255, 0.15) !important;
-        color: white !important;
-        padding: 12px 24px !important;
-        border-radius: 25px !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(10px) !important;
+        color: #a8b2d1 !important;
+        padding: 10px 20px !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
         cursor: pointer !important;
-        transition: all 0.3s ease !important;
-        border: 2px solid transparent !important;
-        display: inline-flex !important;
-        align-items: center !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         font-weight: 500 !important;
-        font-size: 15px !important;
-        margin: 0 !important;
+        font-size: 14px !important;
+        letter-spacing: 0.3px !important;
     }
     
-    /* Force all text inside labels to be white */
     .stRadio label span,
     .stRadio label div,
     .stRadio label p {
-        color: white !important;
+        color: #a8b2d1 !important;
     }
     
     .stRadio label:hover {
-        background: rgba(255, 255, 255, 0.25) !important;
-        border: 2px solid white !important;
+        background: rgba(102, 126, 234, 0.15) !important;
+        border-color: rgba(102, 126, 234, 0.5) !important;
         transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
     }
     
-    /* Active/selected state - WHITE BACKGROUND WITH PURPLE TEXT */
+    /* Active state */
     .stRadio label:has(input:checked) {
-        background: white !important;
-        color: #667eea !important;
-        font-weight: 600 !important;
-        border: 2px solid white !important;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%) !important;
+        border: 1px solid rgba(102, 126, 234, 0.6) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
     }
     
-    /* Force active tab text to be purple */
     .stRadio label:has(input:checked) span,
     .stRadio label:has(input:checked) div,
     .stRadio label:has(input:checked) p {
-        color: #667eea !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
     }
     
-    /* Hide the actual radio circle */
     .stRadio input[type="radio"] {
         display: none !important;
     }
     
-    /* Headers - ALL PROPERLY COLORED */
+    /* ==================== TYPOGRAPHY ==================== */
+    h1, h2, h3, h4 {
+        font-family: 'Inter', sans-serif;
+        font-weight: 800;
+        letter-spacing: -1px;
+    }
+    
     h1 {
-        color: white !important;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-weight: 700;
-        letter-spacing: -0.5px;
+        color: #ffffff !important;
+        font-size: 56px;
+        line-height: 1.1;
     }
     
     h2 {
-        color: #58a6ff !important;
-        border-bottom: 3px solid #58a6ff;
-        padding-bottom: 10px;
-        margin-top: 30px;
+        color: #ffffff !important;
+        font-size: 36px;
+        border: none !important;
+        margin-bottom: 2rem !important;
+        position: relative;
+        display: inline-block;
+    }
+    
+    h2::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        border-radius: 2px;
     }
     
     h3 {
-        color: #79c0ff !important;
-        margin-top: 25px;
+        color: #a8b2d1 !important;
+        font-size: 24px;
+        font-weight: 700;
     }
     
     h4 {
-        color: #58a6ff !important;
-    }
-    
-    /* All paragraph and text elements */
-    p, li, span:not(.stRadio span), div:not(.stRadio div) {
-        color: #c9d1d9 !important;
-    }
-    
-    /* Strong tags */
-    strong {
-        color: #58a6ff !important;
+        color: #8892b0 !important;
+        font-size: 18px;
         font-weight: 600;
     }
     
-    /* Hero section styling */
-    .hero-title {
-        color: white !important;
-        text-align: center;
-        font-size: 48px;
-        font-weight: 700;
-        margin-bottom: 10px;
-    }
-    
-    .hero-subtitle {
-        color: #8b949e !important;
-        text-align: center;
-        font-size: 18px;
+    p, li {
+        color: #8892b0 !important;
+        line-height: 1.8;
         font-weight: 400;
-        margin-bottom: 30px;
     }
     
-    /* Card-like sections */
-    .project-card {
-        background: #161b22 !important;
-        padding: 25px;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        border-left: 5px solid #4B9CD3;
-        margin: 15px 0;
-        transition: transform 0.3s ease;
+    strong {
+        color: #ccd6f6 !important;
+        font-weight: 600;
     }
     
-    .project-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(75, 156, 211, 0.3);
-    }
-    
-    .project-card h2,
-    .project-card h3,
-    .project-card h4 {
-        color: #58a6ff !important;
-        margin-top: 0;
-    }
-    
-    .project-card p,
-    .project-card ul,
-    .project-card li {
-        color: #c9d1d9 !important;
-    }
-    
-    .project-card li {
-        margin: 8px 0;
-    }
-    
-    /* Stats boxes */
-    .stat-box {
-        background: linear-gradient(135deg, #1f6feb 0%, #0969da 100%);
-        padding: 30px 20px;
-        border-radius: 15px;
+    /* ==================== HERO SECTION ==================== */
+    .hero-container {
         text-align: center;
-        color: white;
-        box-shadow: 0 5px 20px rgba(31, 111, 235, 0.3);
-        transition: transform 0.3s ease;
+        padding: 4rem 2rem;
+        margin-bottom: 3rem;
+        position: relative;
     }
     
-    .stat-box:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 30px rgba(31, 111, 235, 0.5);
+    .hero-greeting {
+        font-size: 18px;
+        color: #667eea;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+    
+    .hero-name {
+        font-size: 72px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #ffffff 0%, #a8b2d1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0;
+        line-height: 1.1;
+        letter-spacing: -2px;
+    }
+    
+    .hero-title {
+        font-size: 24px;
+        color: #8892b0;
+        margin-top: 1rem;
+        font-weight: 400;
+        line-height: 1.6;
+    }
+    
+    .hero-title span {
+        color: #667eea;
+        font-weight: 600;
+    }
+    
+    /* ==================== STATS SECTION ==================== */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin: 3rem 0;
+    }
+    
+    .stat-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2rem 1.5rem;
+        border-radius: 16px;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-8px);
+        border-color: rgba(102, 126, 234, 0.5);
+        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
     }
     
     .stat-number {
         font-size: 48px;
-        font-weight: bold;
-        margin: 10px 0;
-        color: white !important;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0;
     }
     
     .stat-label {
-        font-size: 15px;
-        color: rgba(255, 255, 255, 0.9) !important;
-        font-weight: 500;
-    }
-    
-    /* Skill badges */
-    .skill-badge {
-        display: inline-block;
-        background: linear-gradient(135deg, #1f6feb 0%, #0969da 100%);
-        color: white !important;
-        padding: 10px 18px;
-        border-radius: 20px;
-        margin: 5px;
         font-size: 14px;
+        color: #8892b0;
+        margin-top: 0.5rem;
         font-weight: 500;
-        box-shadow: 0 2px 8px rgba(31, 111, 235, 0.3);
+        letter-spacing: 0.5px;
     }
     
-    /* Button styling */
-    .stButton>button {
-        background: linear-gradient(135deg, #1f6feb 0%, #0969da 100%) !important;
-        color: white !important;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 25px;
-        font-weight: 600;
+    /* ==================== CARDS ==================== */
+    .content-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 20px;
+        margin: 1.5rem 0;
         transition: all 0.3s ease;
-    }
-    
-    .stButton>button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 5px 20px rgba(31, 111, 235, 0.5);
-    }
-    
-    /* Timeline styling */
-    .timeline-item {
-        border-left: 3px solid #1f6feb;
-        padding-left: 20px;
-        margin-left: 10px;
-        margin-bottom: 30px;
         position: relative;
     }
     
-    .timeline-item:before {
-        content: '';
+    .content-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(102, 126, 234, 0.3);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .content-card h4 {
+        color: #ccd6f6 !important;
+        margin-top: 0 !important;
+        margin-bottom: 1rem;
+    }
+    
+    .content-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0;
+    }
+    
+    .content-card li {
+        padding-left: 1.5rem;
+        position: relative;
+        margin: 0.8rem 0;
+    }
+    
+    .content-card li::before {
+        content: '▹';
+        color: #667eea;
+        font-size: 18px;
         position: absolute;
-        left: -8px;
-        top: 0;
-        width: 13px;
-        height: 13px;
-        border-radius: 50%;
-        background: #1f6feb;
-        border: 3px solid #0e1117;
-        box-shadow: 0 0 0 2px #1f6feb;
+        left: 0;
+        font-weight: bold;
     }
     
-    .timeline-item h3 {
-        color: #58a6ff !important;
+    /* ==================== TIMELINE ==================== */
+    .timeline-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-left: 4px solid #667eea;
+        padding: 2rem;
+        border-radius: 16px;
+        margin: 2rem 0;
     }
     
-    .timeline-item p {
-        color: #8b949e !important;
+    .timeline-card h3 {
+        color: #ccd6f6 !important;
+        margin-top: 0;
     }
     
-    /* Profile summary box */
-    .profile-summary {
-        background: linear-gradient(135deg, #161b22 0%, #1c2128 100%);
-        padding: 30px;
-        border-radius: 15px;
-        border-left: 5px solid #1f6feb;
-        color: #c9d1d9 !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    .company {
+        color: #667eea !important;
+        font-weight: 600;
+        font-size: 16px;
     }
     
-    .profile-summary p {
-        color: #c9d1d9 !important;
-        line-height: 1.6;
+    .date {
+        color: #8892b0 !important;
+        font-size: 14px;
+        font-style: italic;
     }
     
-    .profile-summary strong {
-        color: #58a6ff !important;
+    /* ==================== SKILL BADGES ==================== */
+    .skill-badge {
+        display: inline-block;
+        background: rgba(102, 126, 234, 0.1);
+        border: 1px solid rgba(102, 126, 234, 0.3);
+        color: #667eea !important;
+        padding: 10px 20px;
+        border-radius: 25px;
+        margin: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        letter-spacing: 0.5px;
     }
     
-    /* Contact info card */
-    .contact-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 30px;
-        border-radius: 15px;
-        color: white;
-        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+    .skill-badge:hover {
+        background: rgba(102, 126, 234, 0.2);
+        border-color: rgba(102, 126, 234, 0.6);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
     }
     
-    .contact-card p,
-    .contact-card strong,
-    .contact-card a {
-        color: white !important;
+    /* ==================== TECH BADGE ==================== */
+    .tech-stack {
+        background: rgba(102, 126, 234, 0.1);
+        border: 1px solid rgba(102, 126, 234, 0.3);
+        color: #667eea !important;
+        padding: 12px 24px;
+        border-radius: 30px;
+        display: inline-block;
+        font-weight: 600;
+        margin-top: 1rem;
+        font-size: 14px;
     }
     
-    /* Links */
-    a {
-        color: #58a6ff !important;
-        text-decoration: none;
-        transition: color 0.3s ease;
+    /* ==================== CONTACT CARD ==================== */
+    .contact-info-card {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+        border: 1px solid rgba(102, 126, 234, 0.3);
+        padding: 2rem;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
     }
     
-    a:hover {
-        color: #79c0ff !important;
-        text-decoration: underline;
+    .contact-info-card p,
+    .contact-info-card a,
+    .contact-info-card strong {
+        color: #ccd6f6 !important;
     }
     
-    /* Form inputs */
+    .contact-info-card a:hover {
+        color: #667eea !important;
+    }
+    
+    /* ==================== FORM STYLING ==================== */
     .stTextInput input,
-    .stTextArea textarea {
-        background-color: #161b22 !important;
-        color: #c9d1d9 !important;
-        border: 1px solid #30363d !important;
-        border-radius: 8px !important;
+    .stTextArea textarea,
+    .stSelectbox select {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #ccd6f6 !important;
+        border-radius: 12px !important;
+        font-family: 'Inter', sans-serif !important;
     }
     
     .stTextInput input:focus,
     .stTextArea textarea:focus {
-        border-color: #1f6feb !important;
-        box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.1) !important;
+        border-color: rgba(102, 126, 234, 0.5) !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
     }
     
-    .stSelectbox select {
-        background-color: #161b22 !important;
-        color: #c9d1d9 !important;
-        border: 1px solid #30363d !important;
-    }
-    
-    /* Labels for form fields */
     .stTextInput label,
     .stTextArea label,
     .stSelectbox label {
-        color: #c9d1d9 !important;
+        color: #a8b2d1 !important;
+        font-weight: 600 !important;
     }
     
-    /* Info/success boxes */
-    .stAlert {
-        background-color: #161b22 !important;
-        color: #c9d1d9 !important;
-        border: 1px solid #30363d !important;
-    }
-    
-    /* Tech stack badge */
-    .tech-badge {
-        background: linear-gradient(135deg, #1f6feb 0%, #0969da 100%);
+    /* ==================== BUTTON ==================== */
+    .stButton > button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         color: white !important;
-        padding: 10px 20px;
-        border-radius: 10px;
-        display: inline-block;
+        border: none !important;
+        padding: 12px 32px !important;
+        border-radius: 30px !important;
+        font-weight: 600 !important;
+        font-size: 16px !important;
+        letter-spacing: 0.5px !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
+    }
+    
+    /* ==================== LINKS ==================== */
+    a {
+        color: #667eea !important;
+        text-decoration: none;
+        transition: all 0.3s ease;
         font-weight: 500;
-        margin-top: 10px;
-        box-shadow: 0 3px 10px rgba(31, 111, 235, 0.3);
     }
     
-    /* Horizontal rule */
+    a:hover {
+        color: #8892ff !important;
+    }
+    
+    /* ==================== DIVIDER ==================== */
     hr {
-        border-color: #30363d !important;
-        margin: 2rem 0 !important;
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+        margin: 2rem 0;
     }
     
-    /* Markdown bullets */
-    .stMarkdown ul {
-        color: #c9d1d9 !important;
-    }
-    
-    .stMarkdown ul li {
-        color: #c9d1d9 !important;
+    /* ==================== FOOTER ==================== */
+    .footer {
+        text-align: center;
+        padding: 2rem;
+        color: #8892b0;
+        font-size: 14px;
+        margin-top: 4rem;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Top Navigation - Using custom HTML structure
+# Navigation
 st.markdown("""
-<div class='nav-wrapper'>
-    <div class='nav-logo'>💼 Sai Manasa B</div>
+<div class='nav-container'>
+    <div class='nav-brand'>⚡ SAI MANASA B</div>
 </div>
 """, unsafe_allow_html=True)
 
-# Navigation Radio Buttons
 page = st.radio(
     "Navigation",
-    ["🏠 About Me", "💼 Experience", "🚀 Projects", "⚡ Skills", "📧 Contact"],
+    ["🏠 About", "💼 Experience", "🚀 Projects", "⚡ Skills", "📧 Contact"],
     horizontal=True,
     key="navigation"
 )
 
 st.markdown("<hr>", unsafe_allow_html=True)
 
-# Extract the page name without emoji
 page_name = page.split(" ", 1)[1] if " " in page else page
 
-# ----------------- About Me -----------------
-if page_name == "About Me":
-    # Hero Section
+# ==================== ABOUT PAGE ====================
+if page_name == "About":
     st.markdown("""
-    <div class='hero-title'>Sai Manasa B</div>
-    <div class='hero-subtitle'>Backend Developer | REST APIs | FastAPI | MySQL | AWS</div>
+    <div class='hero-container'>
+        <div class='hero-greeting'>👋 Hello, I'm</div>
+        <h1 class='hero-name'>Sai Manasa B</h1>
+        <div class='hero-title'>
+            Backend Developer specializing in <span>REST APIs</span>, <span>FastAPI</span>, <span>MySQL</span>, and <span>AWS</span>
+        </div>
+    </div>
     """, unsafe_allow_html=True)
     
-    st.markdown("<br>", unsafe_allow_html=True)
-    
-    # Stats Section
+    # Stats
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         st.markdown("""
-        <div class='stat-box'>
+        <div class='stat-card'>
             <div class='stat-number'>70+</div>
             <div class='stat-label'>APIs Deployed</div>
         </div>
@@ -450,7 +533,7 @@ if page_name == "About Me":
     
     with col2:
         st.markdown("""
-        <div class='stat-box'>
+        <div class='stat-card'>
             <div class='stat-number'>1000+</div>
             <div class='stat-label'>Active Users</div>
         </div>
@@ -458,7 +541,7 @@ if page_name == "About Me":
     
     with col3:
         st.markdown("""
-        <div class='stat-box'>
+        <div class='stat-card'>
             <div class='stat-number'>60%</div>
             <div class='stat-label'>Query Optimization</div>
         </div>
@@ -466,7 +549,7 @@ if page_name == "About Me":
     
     with col4:
         st.markdown("""
-        <div class='stat-box'>
+        <div class='stat-card'>
             <div class='stat-number'>3000+</div>
             <div class='stat-label'>Daily Requests</div>
         </div>
@@ -474,68 +557,65 @@ if page_name == "About Me":
     
     st.markdown("<br><br>", unsafe_allow_html=True)
     
-    # Profile Summary
-    st.markdown("## 👨‍💻 Profile Summary")
+    # About Me
+    st.markdown("## About Me")
     st.markdown("""
-    <div class='profile-summary'>
-    <p>Backend Developer specializing in production REST APIs using <strong>FastAPI</strong>, <strong>MySQL</strong>, and <strong>AWS serverless architecture</strong>.
-    Designed database schemas from scratch and deployed <strong>70+ APIs</strong> on AWS Lambda with custom domain. 
-    Optimized queries achieving <strong>60% performance improvement</strong>, architected multi-role systems, and delivered scalable solutions serving <strong>1000+ users</strong>.</p>
+    <div class='content-card'>
+        <p>I'm a Backend Developer with expertise in building scalable production REST APIs. I specialize in designing efficient database architectures and deploying serverless solutions on AWS.</p>
+        <p>My work focuses on creating robust, high-performance systems that serve thousands of users daily. From database schema design to API optimization, I deliver solutions that make a real impact.</p>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # Contact Info Cards
+    # Contact Info
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("### 📫 Get In Touch")
+        st.markdown("### Let's Connect")
         st.markdown("""
         - 📧 **Email:** [saimanasab10@gmail.com](mailto:saimanasab10@gmail.com)
         - 📞 **Phone:** +91 8667564076
         """)
     
     with col2:
-        st.markdown("### 🔗 Connect Online")
+        st.markdown("### Find Me Online")
         st.markdown("""
-        - 💼 **LinkedIn:** [Sai Manasa](https://www.linkedin.com/in/sai-manasa-b-1765b420b/)
+        - 💼 **LinkedIn:** [Sai Manasa B](https://www.linkedin.com/in/sai-manasa-b-1765b420b/)
         - 💻 **GitHub:** [saimanasaB](https://github.com/saimanasaB)
         """)
 
-# ----------------- Experience -----------------
+# ==================== EXPERIENCE PAGE ====================
 elif page_name == "Experience":
-    st.markdown("# 💼 Professional Experience")
+    st.markdown("## Professional Experience")
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # Timeline Item
     st.markdown("""
-    <div class='timeline-item'>
+    <div class='timeline-card'>
         <h3>API (Backend) Developer</h3>
-        <p style='font-style: italic; margin: 5px 0;'>Satyukt Analytics Pvt. Ltd, Bengaluru</p>
-        <p style='font-size: 14px; margin-bottom: 15px;'>📅 December 2024 – Present</p>
+        <p class='company'>Satyukt Analytics Pvt. Ltd, Bengaluru</p>
+        <p class='date'>📅 December 2024 – Present</p>
     </div>
     """, unsafe_allow_html=True)
     
-    # Key Achievements
-    st.markdown("### 🎯 Key Achievements")
+    st.markdown("### Key Achievements")
     
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("""
-        <div class='project-card'>
+        <div class='content-card'>
             <h4>🚀 API Development & Deployment</h4>
             <ul>
                 <li>Architected and deployed <strong>70+ REST APIs</strong> using FastAPI and MySQL on AWS Lambda</li>
-                <li>Supporting <strong>1000+ active users</strong> and handling <strong>3000+ daily requests</strong></li>
+                <li>Supporting <strong>1000+ active users</strong> handling <strong>3000+ daily requests</strong></li>
                 <li>Configured AWS Lambda with API Gateway custom domain and Lambda Layers</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown("""
-        <div class='project-card'>
+        <div class='content-card'>
             <h4>🔒 Security & Authentication</h4>
             <ul>
                 <li>Built secure authentication workflows with <strong>JWT tokens</strong></li>
@@ -547,18 +627,18 @@ elif page_name == "Experience":
     
     with col2:
         st.markdown("""
-        <div class='project-card'>
+        <div class='content-card'>
             <h4>💾 Database Architecture</h4>
             <ul>
                 <li>Designed MySQL database schema with <strong>15+ normalized tables</strong></li>
-                <li>Optimized queries reducing response time from 850ms to 340ms (<strong>60% improvement</strong>)</li>
+                <li>Optimized queries reducing response time by <strong>60%</strong> (850ms → 340ms)</li>
                 <li>Built multi-role platform supporting 6 user types</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown("""
-        <div class='project-card'>
+        <div class='content-card'>
             <h4>🛰️ Specialized Development</h4>
             <ul>
                 <li>Developed RESTful APIs for <strong>satellite data retrieval</strong></li>
@@ -568,25 +648,24 @@ elif page_name == "Experience":
         </div>
         """, unsafe_allow_html=True)
 
-# ----------------- Projects -----------------
+# ==================== PROJECTS PAGE ====================
 elif page_name == "Projects":
-    st.markdown("# 🚀 Key Projects")
+    st.markdown("## Featured Projects")
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # Sat2Farm Project
+    # Sat2Farm
     st.markdown("""
-    <div class='project-card'>
-        <h2>🌾 Sat2Farm - Agricultural Monitoring Platform</h2>
-        <div class='tech-badge'>
-            <strong>Tech Stack:</strong> FastAPI | MySQL | AWS S3 | Satellite APIs
-        </div>
+    <div class='content-card'>
+        <h2 style='color: #ccd6f6; margin-top: 0;'>🌾 Sat2Farm</h2>
+        <h4 style='color: #8892b0; font-weight: 400; margin-bottom: 1rem;'>Agricultural Monitoring Platform</h4>
+        <div class='tech-stack'>FastAPI • MySQL • AWS S3 • Satellite APIs</div>
     </div>
     """, unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
-        **🎯 Core Features:**
+        **🎯 Core Features**
         - Built backend with **25+ REST APIs**
         - Serving **1000+ farmers**
         - Managing **1500+ farm plots**
@@ -595,7 +674,7 @@ elif page_name == "Projects":
     
     with col2:
         st.markdown("""
-        **⚡ Key Implementations:**
+        **⚡ Key Implementations**
         - Integrated satellite data APIs
         - Soil analysis and weather forecasting
         - Farm CRUD with polygon validation
@@ -604,20 +683,19 @@ elif page_name == "Projects":
     
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # Say Trees Project
+    # Say Trees
     st.markdown("""
-    <div class='project-card'>
-        <h2>🌳 Say Trees - Tree Plantation Management</h2>
-        <div class='tech-badge'>
-            <strong>Tech Stack:</strong> FastAPI | AWS Lambda | MySQL | API Gateway
-        </div>
+    <div class='content-card'>
+        <h2 style='color: #ccd6f6; margin-top: 0;'>🌳 Say Trees</h2>
+        <h4 style='color: #8892b0; font-weight: 400; margin-bottom: 1rem;'>Tree Plantation Management System</h4>
+        <div class='tech-stack'>FastAPI • AWS Lambda • MySQL • API Gateway</div>
     </div>
     """, unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
-        **🎯 Architecture:**
+        **🎯 Architecture**
         - Designed schema with **15+ normalized tables**
         - Deployed **35+ APIs** on AWS Lambda
         - Built role-based access for **5 user types**
@@ -625,23 +703,22 @@ elif page_name == "Projects":
     
     with col2:
         st.markdown("""
-        **⚡ Order Lifecycle Management:**
+        **⚡ Order Lifecycle**
         - Sapling ordering system
         - Inventory validation
         - Logistics assignment
         - Real-time delivery tracking
         """)
 
-# ----------------- Skills -----------------
+# ==================== SKILLS PAGE ====================
 elif page_name == "Skills":
-    st.markdown("# ⚡ Technical Skills")
+    st.markdown("## Technical Expertise")
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # Skill categories
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("### 🐍 Backend & Frameworks")
+        st.markdown("### Backend & Frameworks")
         st.markdown("""
         <span class='skill-badge'>Python</span>
         <span class='skill-badge'>FastAPI</span>
@@ -649,8 +726,8 @@ elif page_name == "Skills":
         <span class='skill-badge'>REST APIs</span>
         """, unsafe_allow_html=True)
         
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("### 💾 Database")
+        st.markdown("<br><br>", unsafe_allow_html=True)
+        st.markdown("### Database")
         st.markdown("""
         <span class='skill-badge'>MySQL</span>
         <span class='skill-badge'>SQL</span>
@@ -659,7 +736,7 @@ elif page_name == "Skills":
         """, unsafe_allow_html=True)
     
     with col2:
-        st.markdown("### ☁️ Cloud & DevOps")
+        st.markdown("### Cloud & DevOps")
         st.markdown("""
         <span class='skill-badge'>AWS Lambda</span>
         <span class='skill-badge'>API Gateway</span>
@@ -667,8 +744,8 @@ elif page_name == "Skills":
         <span class='skill-badge'>Linux/Ubuntu</span>
         """, unsafe_allow_html=True)
         
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("### 🛠️ Tools & Other")
+        st.markdown("<br><br>", unsafe_allow_html=True)
+        st.markdown("### Tools & Technologies")
         st.markdown("""
         <span class='skill-badge'>Git</span>
         <span class='skill-badge'>JWT</span>
@@ -676,16 +753,17 @@ elif page_name == "Skills":
         <span class='skill-badge'>Serverless</span>
         """, unsafe_allow_html=True)
 
-# ----------------- Contact -----------------
+# ==================== CONTACT PAGE ====================
 elif page_name == "Contact":
-    st.markdown("# 📧 Get In Touch")
+    st.markdown("## Get In Touch")
     st.markdown("<br>", unsafe_allow_html=True)
     
     col1, col2 = st.columns([2, 1])
     
     with col1:
-        st.markdown("### 💬 Send Me a Message")
-        st.markdown("I'd love to hear from you! Whether you have a question or just want to say hi, feel free to reach out.")
+        st.markdown("### Send a Message")
+        st.markdown("Have a question or want to work together? Feel free to reach out!")
+        st.markdown("<br>", unsafe_allow_html=True)
         
         with st.form("contact_form", clear_on_submit=True):
             name = st.text_input("Your Name", placeholder="John Doe")
@@ -697,31 +775,27 @@ elif page_name == "Contact":
             
             if submitted:
                 if name and email and message:
-                    st.success(f"✅ Thanks {name}! Your message has been sent successfully. I'll get back to you soon!")
+                    st.success(f"✅ Thanks {name}! Your message has been sent successfully.")
                     st.balloons()
                 else:
                     st.error("❌ Please fill in all required fields.")
     
     with col2:
-        st.markdown("### 📍 Contact Information")
+        st.markdown("### Contact Information")
         st.markdown("""
-        <div class='contact-card'>
+        <div class='contact-info-card'>
             <p><strong>📧 Email</strong><br/>saimanasab10@gmail.com</p>
             <p><strong>📞 Phone</strong><br/>+91 8667564076</p>
-            <p><strong>💼 LinkedIn</strong><br/><a href='https://www.linkedin.com/in/sai-manasa-b-1765b420b/'>Sai Manasa</a></p>
+            <p><strong>💼 LinkedIn</strong><br/><a href='https://www.linkedin.com/in/sai-manasa-b-1765b420b/'>Sai Manasa B</a></p>
             <p><strong>💻 GitHub</strong><br/><a href='https://github.com/saimanasaB'>saimanasaB</a></p>
         </div>
         """, unsafe_allow_html=True)
-        
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("### ⏰ Response Time")
-        st.info("I typically respond within 24-48 hours.")
 
 # Footer
 st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("""
-<div style='text-align: center; padding: 20px;'>
-    <p style='color: #8b949e;'>© 2025 Sai Manasa B | Built with ❤️ using Streamlit</p>
+<div class='footer'>
+    <p>© 2025 Sai Manasa B • Built with Streamlit</p>
 </div>
 """, unsafe_allow_html=True)
